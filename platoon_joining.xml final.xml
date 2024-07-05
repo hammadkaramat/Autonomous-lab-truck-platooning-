@@ -11,14 +11,13 @@ clock y;</declaration>
 </declaration>
 		<location id="id0" x="-850" y="-314">
 			<name x="-952" y="-340">start_platooning</name>
-			<label kind="invariant" x="-860" y="-297">y &lt;= 10</label>
 		</location>
 		<location id="id1" x="-382" y="-365">
 			<name x="-392" y="-399">request_to_join</name>
-			<label kind="invariant" x="-365" y="-365">y &lt;= 100</label>
 		</location>
 		<location id="id2" x="-433" y="-153">
-			<name x="-443" y="-187">join_platoon</name>
+			<name x="-408" y="-153">join_platoon</name>
+			<label kind="invariant" x="-443" y="-136">y&lt;=20</label>
 		</location>
 		<init ref="id0"/>
 		<transition id="id3">
@@ -28,14 +27,11 @@ clock y;</declaration>
 		<transition id="id4">
 			<source ref="id1"/>
 			<target ref="id2"/>
-			<label kind="guard" x="-391" y="-297">y &gt;= 100</label>
 			<label kind="synchronisation" x="-399" y="-272">join_confirmed?</label>
-			<label kind="assignment" x="-391" y="-246">y := 0</label>
 		</transition>
 		<transition id="id5">
 			<source ref="id0"/>
 			<target ref="id1"/>
-			<label kind="guard" x="-654" y="-365">y &gt;= 10</label>
 			<label kind="synchronisation" x="-680" y="-331">join_request!</label>
 			<label kind="assignment" x="-654" y="-306">y := 0</label>
 		</transition>
@@ -48,27 +44,32 @@ clock y;</declaration>
 		<location id="id7" x="-195" y="-280">
 			<name x="-205" y="-314">send_response</name>
 		</location>
-		<location id="id8" x="-93" y="-8">
-			<name x="-103" y="-42">confirm_join</name>
+		<location id="id8" x="-102" y="-85">
+			<name x="-102" y="-119">Join_complete</name>
+			<label kind="invariant" x="-93" y="-68">y&lt;=10</label>
 		</location>
 		<init ref="id6"/>
 		<transition id="id9">
+			<source ref="id7"/>
+			<target ref="id7"/>
+			<nail x="-238" y="-340"/>
+			<nail x="-127" y="-365"/>
+			<nail x="-42" y="-306"/>
+			<nail x="-127" y="-263"/>
+		</transition>
+		<transition id="id10">
 			<source ref="id8"/>
 			<target ref="id6"/>
 		</transition>
-		<transition id="id10">
+		<transition id="id11">
 			<source ref="id7"/>
 			<target ref="id8"/>
-			<label kind="guard" x="-144" y="-187">y &gt;= 100</label>
-			<label kind="synchronisation" x="-136" y="-161">join_confirmed!</label>
-			<label kind="assignment" x="-119" y="-127">y := 0</label>
+			<label kind="synchronisation" x="-127" y="-204">join_confirmed!</label>
 		</transition>
-		<transition id="id11">
+		<transition id="id12">
 			<source ref="id6"/>
 			<target ref="id7"/>
-			<label kind="guard" x="-458" y="-233">y &gt;= 10</label>
 			<label kind="synchronisation" x="-458" y="-216">join_request?</label>
-			<label kind="assignment" x="-458" y="-199">y := 0</label>
 		</transition>
 	</template>
 	<system>// Place template instantiations here.
@@ -79,8 +80,12 @@ system platoon_joining,Platoon_Response;
 	<queries>
 		<option key="--priority-order" value="0"/>
 		<query>
-			<formula/>
+			<formula>A[] not deadlock
+</formula>
 			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-07-04 22:38:41 +0200">
+				<option key="--priority-order" value="0"/>
+			</result>
 		</query>
 	</queries>
 </nta>
