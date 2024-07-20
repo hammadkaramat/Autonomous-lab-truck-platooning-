@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>bool PlatoonInitiated = false;
+int trucksInPlatoon = 0;
+const int maxTrucksInPlatoon = 4;
+chan request_leave;
+chan approval_leave;
+
+clock x;
+clock y;</declaration>
+	<template>
+		<name x="5" y="5">LeadTruck</name>
+		<declaration>// Place local declarations here.
+clock x;
+</declaration>
+		<location id="id0" x="-374" y="-161">
+			<name x="-384" y="-195">Init</name>
+		</location>
+		<location id="id1" x="-612" y="-306">
+			<name x="-622" y="-340">left_platoon</name>
+		</location>
+		<location id="id2" x="-306" y="-323">
+			<name x="-316" y="-357">leave_platoon</name>
+			<label kind="invariant" x="-306" y="-314">x&lt;=5</label>
+		</location>
+		<init ref="id0"/>
+		<transition id="id3">
+			<source ref="id1"/>
+			<target ref="id0"/>
+		</transition>
+		<transition id="id4">
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-476" y="-348">x &gt;= 5</label>
+		</transition>
+		<transition id="id5">
+			<source ref="id0"/>
+			<target ref="id2"/>
+			<label kind="assignment" x="-340" y="-246">x := 0</label>
+		</transition>
+	</template>
+	<template>
+		<name>SlaveTruck</name>
+		<declaration>clock y;
+</declaration>
+		<location id="id6" x="0" y="0">
+			<name x="-10" y="-34">Init</name>
+		</location>
+		<location id="id7" x="-136" y="-136">
+			<name x="-146" y="-170">left_platoon</name>
+		</location>
+		<location id="id8" x="153" y="-144">
+			<name x="143" y="-178">request_leave</name>
+			<label kind="invariant" x="143" y="-127">y &lt;= 5</label>
+		</location>
+		<init ref="id6"/>
+		<transition id="id9">
+			<source ref="id7"/>
+			<target ref="id6"/>
+		</transition>
+		<transition id="id10">
+			<source ref="id8"/>
+			<target ref="id7"/>
+			<label kind="guard" x="-68" y="-161">y &gt;= 5</label>
+			<label kind="synchronisation" x="-76" y="-136">approval_leave?</label>
+		</transition>
+		<transition id="id11">
+			<source ref="id6"/>
+			<target ref="id8"/>
+			<label kind="assignment" x="18" y="-59">y := 0</label>
+		</transition>
+	</template>
+	<template>
+		<name>Management</name>
+		<location id="id12" x="-110" y="42">
+			<name x="-120" y="8">Init</name>
+		</location>
+		<location id="id13" x="85" y="-76">
+			<name x="75" y="-110">approval_leave</name>
+		</location>
+		<init ref="id12"/>
+		<transition id="id14">
+			<source ref="id13"/>
+			<target ref="id12"/>
+			<nail x="-76" y="-76"/>
+		</transition>
+		<transition id="id15">
+			<source ref="id12"/>
+			<target ref="id13"/>
+			<label kind="guard" x="17" y="-34">trucksInPlatoon == 0</label>
+			<label kind="assignment" x="-42" y="0">trucksInPlatoon := 0</label>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">LeadTruck</name>
+		<declaration>// Place local declarations here.
+clock x;
+</declaration>
+		<location id="id16" x="-374" y="-161">
+			<name x="-384" y="-195">Init</name>
+		</location>
+		<location id="id17" x="-612" y="-306">
+			<name x="-622" y="-340">left_platoon</name>
+		</location>
+		<location id="id18" x="-306" y="-323">
+			<name x="-316" y="-357">leave_platoon</name>
+			<label kind="invariant" x="-306" y="-314">x&lt;=5</label>
+		</location>
+		<init ref="id16"/>
+		<transition id="id19">
+			<source ref="id17"/>
+			<target ref="id16"/>
+		</transition>
+		<transition id="id20">
+			<source ref="id18"/>
+			<target ref="id17"/>
+			<label kind="guard" x="-476" y="-348">x &gt;= 5</label>
+		</transition>
+		<transition id="id21">
+			<source ref="id16"/>
+			<target ref="id18"/>
+			<label kind="assignment" x="-340" y="-246">x := 0</label>
+		</transition>
+	</template>
+	<template>
+		<name>SlaveTruck</name>
+		<declaration>clock y;
+</declaration>
+		<location id="id22" x="0" y="0">
+			<name x="-10" y="-34">Init</name>
+		</location>
+		<location id="id23" x="-136" y="-136">
+			<name x="-146" y="-170">left_platoon</name>
+		</location>
+		<location id="id24" x="153" y="-144">
+			<name x="143" y="-178">request_leave</name>
+			<label kind="invariant" x="143" y="-127">y &lt;= 5</label>
+		</location>
+		<init ref="id22"/>
+		<transition id="id25">
+			<source ref="id23"/>
+			<target ref="id22"/>
+		</transition>
+		<transition id="id26">
+			<source ref="id24"/>
+			<target ref="id23"/>
+			<label kind="guard" x="-68" y="-161">y &gt;= 5</label>
+			<label kind="synchronisation" x="-76" y="-136">approval_leave?</label>
+		</transition>
+		<transition id="id27">
+			<source ref="id22"/>
+			<target ref="id24"/>
+			<label kind="assignment" x="18" y="-59">y := 0</label>
+		</transition>
+	</template>
+	<template>
+		<name>Management</name>
+		<location id="id28" x="-110" y="42">
+			<name x="-120" y="8">Init</name>
+		</location>
+		<location id="id29" x="85" y="-76">
+			<name x="75" y="-110">approval_leave</name>
+		</location>
+		<init ref="id28"/>
+		<transition id="id30">
+			<source ref="id29"/>
+			<target ref="id28"/>
+			<nail x="-76" y="-76"/>
+		</transition>
+		<transition id="id31">
+			<source ref="id28"/>
+			<target ref="id29"/>
+			<label kind="guard" x="17" y="-34">trucksInPlatoon == 0</label>
+			<label kind="assignment" x="-42" y="0">trucksInPlatoon := 0</label>
+		</transition>
+	</template>
+	<system>// place template instontiations here.
+
+// list one or more processes to be composed into a system.
+system LeadTruck, SlaveTruck, Management;
+
+</system>
+	<queries>
+		<query>
+			<formula>A[] not deadlock
+</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-07-09 20:16:53 +0200">
+			</result>
+		</query>
+	</queries>
+</nta>
